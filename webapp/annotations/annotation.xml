@@ -1,0 +1,355 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication" />
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/sap/ZKD_CRUD_SRV/$metadata">
+        <edmx:Include Namespace="ZKD_CRUD_SRV" />
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            <Annotations Target="ZKD_CRUD_SRV.header/Vkorg">
+                <Annotation Term="Common.Text" Path="headerToSalesOrgNav/Vtext" />
+            </Annotations>
+            <Annotations Target="ZKD_CRUD_SRV.header/Auart">
+                <Annotation Term="Common.Text" Path="headerToDocTypeNav/Bezei" />
+                <!-- <Annotation Term="Common.FilterDefaultValue" String="AA" /> -->
+            </Annotations>
+            <!-- <Annotations Target="ZKD_CRUD_SRV.header/Abstk">
+                <Annotation Term="Common.Text" Path="headerToDocTypeNav/Bezei" />                
+            </Annotations> -->
+            <!-- <Annotations Target="ZKD_CRUD_SRV.status/Abstk">
+                <Annotation Term="Common.Text" Path="statusToTextNav/value" />
+            </Annotations>
+            <Annotations Target="ZKD_CRUD_SRV.status/Gbstk">
+                <Annotation Term="Common.Text" Path="statusToTextNav/value" />
+            </Annotations> -->
+            <Annotations Target="ZKD_CRUD_SRV.header/Auart">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="docTypeSet" />
+                        <PropertyValue Property="SearchSupported" Bool="true" />
+                        <PropertyValue Property="Parameters">
+                            <Annotation Term="Common.Label" String="{@i18n>status}" />
+                            <Collection>
+                                <!-- <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Auart" />
+                                    <PropertyValue Property="ValueListProperty" String="Auart" />
+                                </Record> -->
+                                <Record Type="Common.ValueListParameterOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Auart" />
+                                    <PropertyValue Property="ValueListProperty" String="Auart" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Bezei" />
+                                    <PropertyValue Property="ValueListProperty" String="Bezei" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterIn">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Auart" />
+                                    <PropertyValue Property="ValueListProperty" String="Auart" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZKD_CRUD_SRV.header/Vkorg">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="HTvkoSet" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterIn">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Vkorg" />
+                                    <PropertyValue Property="ValueListProperty" String="Vkorg" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Vkorg" />
+                                    <PropertyValue Property="ValueListProperty" String="Vkorg" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Vtext" />
+                                    <PropertyValue Property="ValueListProperty" String="Vtext" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZKD_CRUD_SRV.item">
+                <Annotation Term="UI.LineItem" Qualifier="ItemTable">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Vbeln" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Posnr" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Matnr" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Netwr" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Ntgew" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZKD_CRUD_SRV.header">
+                <Annotation Term="UI.DataPoint" Qualifier="Rating">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title" String="{@i18n>shipingCondition}" />
+                        <PropertyValue Property="Value" Path="Vsbed" />
+                        <PropertyValue Property="Visualization" EnumMember="UI.VisualizationType/Rating" />
+                    </Record>
+                </Annotation>
+                <!-- https://blogs.sap.com/2018/01/22/create-kpis-with-data-points-and-criticality-calculation-in-a-sap-fiori-overview-page/ -->
+                <Annotation Term="UI.DataPoint" Qualifier="SalesCondition">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Value" Path="Netwr" />
+                        <PropertyValue Property="CriticalityCalculation">
+                            <Record Type="UI.CriticalityCalculationType">
+                                <PropertyValue Property="ImprovementDirection" EnumMember="UI.ImprovementDirectionType/Maximize" />
+                                <PropertyValue Property="DeviationRangeLowValue" Decimal="6000.00" />
+                                <PropertyValue Property="ToleranceRangeLowValue" Decimal="21000.00" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Chart" Qualifier="NetPrice">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="{@i18n>netPrice}" />
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bullet" />
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>Netwr</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#SalesCondition" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.SemanticKey">
+                    <Collection>
+                        <PropertyPath>Vbeln</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.HeaderInfo">
+                    <Record Type="UI.HeaderInfoType">
+                        <PropertyValue Property="TypeName" String="{@i18n>sales}" />
+                        <PropertyValue Property="TypeNamePlural" String="{@i18n>salesReport}" />
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="Vbeln" />
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="Auart" />
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="ImageUrl" String="https://logodix.com/logo/80146.jpg" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="SalesOrg">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title" String="{@i18n>salesOrg}" />
+                        <PropertyValue Property="Value" Path="Vkorg" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="DistChanl">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title" String="{@i18n>distributionChannel}" />
+                        <PropertyValue Property="Value" Path="Vtweg" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="Division">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title" String="{@i18n>division}" />
+                        <PropertyValue Property="Value" Path="Spart" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.HeaderFacets">
+                    <Collection>
+                        <!-- <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#SalesOrg" />
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#DistChanl" />
+                        </Record> -->
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#SalesOrg" />
+                        </Record>
+                        <Record Type="UI.CollectionFacet">
+                            <PropertyValue Property="Facets">
+                                <Collection>
+                                    <Record Type="UI.ReferenceFacet">
+                                        <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#DistChanl" />
+                                    </Record>
+                                    <Record Type="UI.ReferenceFacet">
+                                        <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Division" />
+                                    </Record>
+                                </Collection>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Rating" />
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.Chart#NetPrice" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>Vbeln</PropertyPath>
+                        <PropertyPath>Erdat</PropertyPath>
+                        <PropertyPath>Auart</PropertyPath>
+                        <PropertyPath>Vkorg</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Vbeln" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Erdat" />
+                        </Record>
+                        <!-- <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Auart" />
+                        </Record> -->
+                        // Naviaget to different app
+                        <Record Type="UI.DataFieldWithIntentBasedNavigation">
+                            <PropertyValue Property="Value" Path="Auart" />
+                            <PropertyValue Property="SemanticObject" String="" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Netwr" />
+                            <!-- <PropertyValue Property="Criticality" EnumMember="UI.CriticalityType/Positive" /> -->
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Vkorg" />
+                        </Record>
+
+                        <!-- <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Vtweg" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Spart" />
+                        </Record> -->
+                        <Record Type="UI.DataFieldForAnnotation">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Rating" />
+                        </Record>
+                        <Record Type="UI.DataFieldForAnnotation">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.Chart#NetPrice" />
+                            <PropertyValue Property="Label" String="Net Price Indicator" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Abstk" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Identification" Qualifier="identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Vbeln" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Auart" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Netwr" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="Status">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="headerToStatusNav/Abstk" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="headerToStatusNav/Gbstk" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="headerToStatusNav/Uvall" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="headerToStatusNav/Uvfak" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="headerToStatusNav/Uvfas" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="headerToStatusNav/Uvprs" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="Location">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Vkorg" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Vtweg" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Spart" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.CollectionFacet">
+                            <PropertyValue Property="Label" String="{@i18n>headerInfomation}" />
+                            <PropertyValue Property="Facets">
+                                <Collection>
+                                    <Record Type="UI.ReferenceFacet">
+                                        <PropertyValue Property="Label" String="{@i18n>salesInfo}" />
+                                        <PropertyValue Property="Target" AnnotationPath="@UI.Identification#identification" />
+                                    </Record>
+                                    <Record Type="UI.ReferenceFacet">
+                                        <PropertyValue Property="Label" String="{@i18n>status1}" />
+                                        <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Status" />
+                                    </Record>
+                                    <Record Type="UI.ReferenceFacet">
+                                        <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Location" />
+                                        <PropertyValue Property="Label" String="{@i18n>location}" />
+                                    </Record>
+                                </Collection>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="headerToItemNav/@UI.LineItem#ItemTable" />
+                            <PropertyValue Property="Label" String="{@i18n>salesItems}" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

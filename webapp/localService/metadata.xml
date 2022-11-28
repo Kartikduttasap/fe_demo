@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZKD_CRUD_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="header" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Vbeln"/>
+                </Key>
+                <Property Name="Vbeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Sales Document"/>
+                <Property Name="Erdat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Created on"/>
+                <Property Name="Erzet" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Time"/>
+                <Property Name="Auart" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Sales Doc. Type"/>
+                <Property Name="Netwr" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waerk" sap:label="Net Value"/>
+                <Property Name="Waerk" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="Doc. Currency" sap:semantics="currency-code"/>
+                <Property Name="Vkorg" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Sales Org."/>
+                <Property Name="Vtweg" Type="Edm.String" MaxLength="2" sap:unicode="false" sap:label="Distr. Channel"/>
+                <Property Name="Spart" Type="Edm.String" MaxLength="2" sap:unicode="false" sap:label="Division"/>
+                <Property Name="Vsbed" Type="Edm.String" MaxLength="2" sap:unicode="false" sap:label="Shipping Condition"/>
+                <Property Name="Abstk" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Rejection Status (All Items)"/>
+                <NavigationProperty Name="headerToItemNav" Relationship="ZKD_CRUD_SRV.headToItemAss" FromRole="FromRole_headToItemAss" ToRole="ToRole_headToItemAss"/>
+                <NavigationProperty Name="headerToStatusNav" Relationship="ZKD_CRUD_SRV.headerToStatusAss" FromRole="FromRole_headerToStatusAss" ToRole="ToRole_headerToStatusAss"/>
+                <NavigationProperty Name="headerToDocTypeNav" Relationship="ZKD_CRUD_SRV.headerToDocTypeAss" FromRole="FromRole_headerToDocTypeAss" ToRole="ToRole_headerToDocTypeAss"/>
+                <NavigationProperty Name="headerToSalesOrgNav" Relationship="ZKD_CRUD_SRV.headerToSalesOrgAss" FromRole="FromRole_headerToSalesOrgAss" ToRole="ToRole_headerToSalesOrgAss"/>
+            </EntityType>
+            <EntityType Name="item" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Vbeln"/>
+                    <PropertyRef Name="Posnr"/>
+                </Key>
+                <Property Name="Vbeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Sales Document"/>
+                <Property Name="Posnr" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item"/>
+                <Property Name="Matnr" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Material"/>
+                <Property Name="Netwr" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waerk" sap:label="Net Value"/>
+                <Property Name="Waerk" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="Doc. Currency" sap:semantics="currency-code"/>
+                <Property Name="Ntgew" Type="Edm.Decimal" Precision="15" Scale="3" sap:unicode="false" sap:unit="Gewei" sap:label="Net Weight"/>
+                <Property Name="Gewei" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Weight unit" sap:semantics="unit-of-measure"/>
+            </EntityType>
+            <EntityType Name="status" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Vbeln"/>
+                </Key>
+                <Property Name="Vbeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Sales Document"/>
+                <Property Name="Abstk" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Rejection Sts"/>
+                <Property Name="Gbstk" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Overall Status"/>
+                <Property Name="Uvvls" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Deliv–All Itms"/>
+                <Property Name="Uvfas" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Billg–All Items"/>
+                <Property Name="Uvall" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Overall Header"/>
+                <Property Name="Uvvlk" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Delivery – Hdr"/>
+                <Property Name="Uvfak" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Billing – Hdr"/>
+                <Property Name="Uvprs" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Prcg – All Itms"/>
+                <NavigationProperty Name="statusToTextNav" Relationship="ZKD_CRUD_SRV.statusToTextAss" FromRole="FromRole_statusToTextAss" ToRole="ToRole_statusToTextAss"/>
+            </EntityType>
+            <EntityType Name="docStatus" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="key"/>
+                </Key>
+                <Property Name="key" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="value" Type="Edm.String" sap:unicode="false"/>
+            </EntityType>
+            <EntityType Name="message" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Type"/>
+                    <PropertyRef Name="Code"/>
+                </Key>
+                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Message type"/>
+                <Property Name="Code" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="Message code"/>
+                <Property Name="Message" Type="Edm.String" MaxLength="220" sap:unicode="false" sap:label="Message Text"/>
+                <Property Name="LogNo" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Log number"/>
+                <Property Name="LogMsgNo" Type="Edm.String" MaxLength="6" sap:unicode="false" sap:label="Message no."/>
+                <Property Name="MessageV1" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Message Variable"/>
+                <Property Name="MessageV2" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Message Variable"/>
+                <Property Name="MessageV3" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Message Variable"/>
+                <Property Name="MessageV4" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Message Variable"/>
+            </EntityType>
+            <EntityType Name="docType" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Auart"/>
+                </Key>
+                <Property Name="Auart" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales Doc. Type"/>
+                <Property Name="Bezei" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description"/>
+            </EntityType>
+            <EntityType Name="HTvko" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Vkorg"/>
+                </Key>
+                <Property Name="Vkorg" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales Org." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vtext" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="statusToTextAss" sap:content-version="1">
+                <End Type="ZKD_CRUD_SRV.status" Multiplicity="0..1" Role="FromRole_statusToTextAss"/>
+                <End Type="ZKD_CRUD_SRV.docStatus" Multiplicity="0..1" Role="ToRole_statusToTextAss"/>
+            </Association>
+            <Association Name="headToItemAss" sap:content-version="1">
+                <End Type="ZKD_CRUD_SRV.header" Multiplicity="0..1" Role="FromRole_headToItemAss"/>
+                <End Type="ZKD_CRUD_SRV.item" Multiplicity="*" Role="ToRole_headToItemAss"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_headToItemAss">
+                        <PropertyRef Name="Vbeln"/>
+                    </Principal>
+                    <Dependent Role="ToRole_headToItemAss">
+                        <PropertyRef Name="Vbeln"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="headerToStatusAss" sap:content-version="1">
+                <End Type="ZKD_CRUD_SRV.header" Multiplicity="0..1" Role="FromRole_headerToStatusAss"/>
+                <End Type="ZKD_CRUD_SRV.status" Multiplicity="0..1" Role="ToRole_headerToStatusAss"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_headerToStatusAss">
+                        <PropertyRef Name="Vbeln"/>
+                    </Principal>
+                    <Dependent Role="ToRole_headerToStatusAss">
+                        <PropertyRef Name="Vbeln"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="headerToDocTypeAss" sap:content-version="1">
+                <End Type="ZKD_CRUD_SRV.header" Multiplicity="0..1" Role="FromRole_headerToDocTypeAss"/>
+                <End Type="ZKD_CRUD_SRV.docType" Multiplicity="0..1" Role="ToRole_headerToDocTypeAss"/>
+            </Association>
+            <Association Name="headerToSalesOrgAss" sap:content-version="1">
+                <End Type="ZKD_CRUD_SRV.header" Multiplicity="0..1" Role="FromRole_headerToSalesOrgAss"/>
+                <End Type="ZKD_CRUD_SRV.HTvko" Multiplicity="0..1" Role="ToRole_headerToSalesOrgAss"/>
+            </Association>
+            <EntityContainer Name="ZKD_CRUD_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="headerSet" EntityType="ZKD_CRUD_SRV.header" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="itemSet" EntityType="ZKD_CRUD_SRV.item" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="statusSet" EntityType="ZKD_CRUD_SRV.status" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="docStatusSet" EntityType="ZKD_CRUD_SRV.docStatus" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="messageSet" EntityType="ZKD_CRUD_SRV.message" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="docTypeSet" EntityType="ZKD_CRUD_SRV.docType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="HTvkoSet" EntityType="ZKD_CRUD_SRV.HTvko" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="headerToDocTypeAssSet" Association="ZKD_CRUD_SRV.headerToDocTypeAss" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="headerSet" Role="FromRole_headerToDocTypeAss"/>
+                    <End EntitySet="docTypeSet" Role="ToRole_headerToDocTypeAss"/>
+                </AssociationSet>
+                <AssociationSet Name="statusToTextAssSet" Association="ZKD_CRUD_SRV.statusToTextAss" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="statusSet" Role="FromRole_statusToTextAss"/>
+                    <End EntitySet="docStatusSet" Role="ToRole_statusToTextAss"/>
+                </AssociationSet>
+                <AssociationSet Name="headerToStatusAssSet" Association="ZKD_CRUD_SRV.headerToStatusAss" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="headerSet" Role="FromRole_headerToStatusAss"/>
+                    <End EntitySet="statusSet" Role="ToRole_headerToStatusAss"/>
+                </AssociationSet>
+                <AssociationSet Name="headerToSalesOrgAssSet" Association="ZKD_CRUD_SRV.headerToSalesOrgAss" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="headerSet" Role="FromRole_headerToSalesOrgAss"/>
+                    <End EntitySet="HTvkoSet" Role="ToRole_headerToSalesOrgAss"/>
+                </AssociationSet>
+                <AssociationSet Name="headToItemAssSet" Association="ZKD_CRUD_SRV.headToItemAss" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="headerSet" Role="FromRole_headToItemAss"/>
+                    <End EntitySet="itemSet" Role="ToRole_headToItemAss"/>
+                </AssociationSet>
+                <FunctionImport Name="getFare" ReturnType="ZKD_CRUD_SRV.item" EntitySet="itemSet" m:HttpMethod="GET" sap:action-for="ZKD_CRUD_SRV.item">
+                    <Parameter Name="type" Type="Edm.String" Mode="In"/>
+                    <Parameter Name="doc" Type="Edm.String" Mode="In"/>
+                </FunctionImport>
+                <FunctionImport Name="getMessage" ReturnType="Collection(ZKD_CRUD_SRV.message)" EntitySet="messageSet" m:HttpMethod="GET" sap:action-for="ZKD_CRUD_SRV.message"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://103.207.171.202:8021/sap/opu/odata/sap/ZKD_CRUD_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://103.207.171.202:8021/sap/opu/odata/sap/ZKD_CRUD_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
